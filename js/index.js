@@ -1,6 +1,40 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
+    const themeToggle = document.querySelector('.theme-toggle');
+    const body = document.body
     // Cursor Animation
     const cursor = document.querySelector('.cursor');
+
+
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+        body.classList.add('dark-theme');
+    }
+
+    themeToggle.addEventListener('click', function() {
+        body.classList.toggle('dark-theme');
+        
+        // Save preference to localStorage
+        const isDark = body.classList.contains('dark-theme');
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        
+        // Add animation class for a nice effect
+        body.classList.add('theme-transition');
+        setTimeout(() => {
+            body.classList.remove('theme-transition');
+        }, 500);
+    });
+
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+        if (!localStorage.getItem('theme')) {
+            if (e.matches) {
+                body.classList.add('dark-theme');
+            } else {
+                body.classList.remove('dark-theme');
+            }
+        }
+    });
     
     document.addEventListener('mousemove', (e) => {
         cursor.style.left = e.pageX + 'px';

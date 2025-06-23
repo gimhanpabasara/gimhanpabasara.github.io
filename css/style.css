@@ -1,6 +1,21 @@
 /* Base Styles */
 :root {
-    --primary-color: #6c63ff;
+
+    /* Light theme colors */
+        --bg-color: #ffffff;
+        --text-color: #333333;
+        --primary-color: #4a6bff;
+        --secondary-color: #f5f7ff;
+        --card-bg: #ffffff;
+        --card-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        --nav-bg: rgba(255, 255, 255, 0.9);
+        --timeline-bg: #f8f9fa;
+        --input-bg: #f5f7ff;
+        --footer-bg: #f8f9fa;
+
+
+
+    /* --primary-color: #6c63ff;
     --secondary-color: #4d44db;
     --dark-color: #2f2e41;
     --light-color: #f8f9fa;
@@ -10,13 +25,27 @@
     --black: #000;
     --transition: all 0.3s ease;
     --box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    --border-radius: 10px;
+    --border-radius: 10px; */
+}
+
+.dark-theme {
+    --bg-color: #121212;
+    --text-color: #f5f5f5;
+    --primary-color: #6c8eff;
+    --secondary-color: #1e1e1e;
+    --card-bg: #1e1e1e;
+    --card-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+    --nav-bg: rgba(30, 30, 30, 0.9);
+    --timeline-bg: #121212;
+    --input-bg: #2d2d2d;
+    --footer-bg: #1a1a1a;
 }
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 html {
@@ -26,10 +55,63 @@ html {
 body {
     font-family: 'Poppins', sans-serif;
     color: var(--text-color);
-    background-color: var(--white);
+    background-color: var(--bg-color);
     overflow-x: hidden;
     line-height: 1.6;
+    transition: background-color 0.5s ease, color 0.5s ease;
 }
+
+
+
+.theme-toggle {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: var(--text-color);
+    position: relative;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+}
+
+.theme-toggle:hover {
+    transform: scale(1.1);
+}
+
+.theme-toggle i {
+    position: absolute;
+    transition: opacity 0.3s ease, transform 0.5s ease;
+}
+
+.theme-toggle .fa-moon {
+    opacity: 1;
+}
+
+.theme-toggle .fa-sun {
+    opacity: 0;
+    transform: rotate(90deg);
+}
+
+.dark-theme .theme-toggle .fa-moon {
+    opacity: 0;
+    transform: rotate(-90deg);
+}
+
+.dark-theme .theme-toggle .fa-sun {
+    opacity: 1;
+    transform: rotate(0deg);
+}
+
+
+
+
+
+
+
 
 .container {
     width: 90%;
@@ -103,15 +185,26 @@ section {
 
 /* Navigation */
 .navbar {
+    color: var(--text-color);
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     padding: 20px 0;
-    background-color: rgba(255, 255, 255, 0.95);
+    background-color: var(--nav-bg);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     z-index: 1000;
-    transition: var(--transition);
+    transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+/* Cards */
+.card,
+.education-card,
+.cv-card {
+    background-color: var(--card-bg);
+    box-shadow: var(--card-shadow);
+    transition: all 0.5s ease;
+    /* Shorthand for all animatable properties */
 }
 
 .navbar.scrolled {
@@ -186,6 +279,23 @@ section {
     align-items: center;
     background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
     overflow: hidden;
+    background-color: var(--secondary-color);
+    position: relative;
+    overflow: hidden;
+    transition: background-color 0.5s ease;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--primary-color) 0%, rgba(74, 107, 255, 0.1) 100%);
+    opacity: 0.1;
+    z-index: 1;
+    transition: background 0.5s ease, opacity 0.5s ease;
 }
 
 .hero .container {
@@ -194,9 +304,16 @@ section {
     justify-content: space-between;
 }
 
+.dark-theme .hero::before {
+    background: linear-gradient(135deg, var(--primary-color) 0%, rgba(30, 30, 30, 0.8) 100%);
+    opacity: 0.2;
+}
+
 .hero-content {
     flex: 1;
     max-width: 600px;
+    position: relative;
+    z-index: 2;
 }
 
 .hero-title {
@@ -204,6 +321,8 @@ section {
     font-weight: 700;
     margin-bottom: 15px;
     line-height: 1.2;
+    color: var(--text-color);
+    transition: color 0.5s ease;
 }
 
 .hero-subtitle {
@@ -384,6 +503,13 @@ section {
     position: relative;
     max-width: 800px;
     margin: 0 auto;
+}
+
+/* Timeline */
+.timeline-content,
+.timeline-item {
+    background-color: var(--timeline-bg);
+    transition: background-color 0.5s ease;
 }
 
 .timeline::after {
@@ -833,9 +959,35 @@ section {
     resize: vertical;
 }
 
+.card,
+.education-card,
+.cv-card {
+    background-color: var(--card-bg);
+    box-shadow: var(--card-shadow);
+    transition: background-color 0.5s ease, box-shadow 0.5s ease;
+}
+
+
+.timeline-content,
+.timeline-item {
+    background-color: var(--timeline-bg);
+    transition: background-color 0.5s ease;
+}
+
+.contact-form input,
+.contact-form textarea {
+    background-color: var(--input-bg);
+    color: var(--text-color);
+    transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+
+
+
 /* Footer */
 .footer {
-    background-color: var(--dark-color);
+    background-color: var(--footer-bg);
+    transition: background-color 0.5s ease;
     color: var(--white);
     padding: 60px 0 0;
 }
@@ -977,6 +1129,31 @@ section {
     transform: translateY(0);
 }
 
+/* For elements that don't need transition */
+.no-transition,
+.no-transition * {
+    transition: none !important;
+}
+
+/* Specific animation for theme toggle */
+@keyframes themeToggle {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.theme-toggle.clicked {
+    animation: themeToggle 0.5s ease;
+}
+
 /* Responsive Design */
 @media (max-width: 992px) {
     .hero .container {
@@ -1058,6 +1235,69 @@ section {
     .hero-title {
         font-size: 2.5rem;
     }
+
+    .hero-title .highlight {
+        color: var(--primary-color);
+        transition: color 0.5s ease;   
+    }
+
+    .hero-subtitle,
+    .hero-description {
+        color: var(--text-color);
+        opacity: 0.9;
+        transition: color 0.5s ease;   
+    }
+
+    .circle-animation {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background: conic-gradient(var(--primary-color) 0%,rgba(74, 107, 255, 0.1) 70%);
+        animation: rotate 15s linear infinite;
+        z-index: -1;
+        opacity: 0.2;
+        transition: background 0.5s ease, opacity 0.5s ease;   
+    }
+
+
+        .dark-theme .circle-animation {
+            background: conic-gradient(var(--primary-color) 0%,
+                    rgba(30, 30, 30, 0.8) 70%);
+            opacity: 0.3;
+        }
+    
+        /* Social icons in hero */
+        .social-icons .social-icon {
+            color: var(--text-color);
+            background-color: rgba(74, 107, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+    
+        .social-icons .social-icon:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+    
+        .dark-theme .social-icons .social-icon {
+            background-color: rgba(108, 142, 255, 0.2);
+        }
+    
+        /* Hero button */
+        .hero .btn {
+            background-color: var(--primary-color);
+            color: white;
+            transition: all 0.3s ease;
+        }
+    
+        .hero .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(74, 107, 255, 0.3);
+        }
+    
+        .dark-theme .hero .btn:hover {
+            box-shadow: 0 10px 20px rgba(108, 142, 255, 0.4);
+        }   2
     
     .hero-subtitle {
         font-size: 1rem;
